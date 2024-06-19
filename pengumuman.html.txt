@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en" translate="no">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PENGUMUMAN KELULUSAN CALON ORGANISATOR</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous" />
+    <style>
+      body {
+        padding: 20px;
+      }
+
+      .search-results {
+        margin-top: 20px;
+      }
+
+      #my-canvas {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+      }
+
+      #loadingOverlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.8);
+        z-index: 2;
+      }
+
+      #loadingSpinner {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 3;
+        border: 4px solid #3498db;
+        border-top: 4px solid transparent;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        animation: spin 1s linear infinite;
+      }
+
+      .loader-text {
+        padding-top: 80px;
+        color: #222;
+        font-family: arial, sans-serif;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 3;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: translate(-50%, -50%) rotate(0deg);
+        }
+
+        100% {
+          transform: translate(-50%, -50%) rotate(360deg);
+        }
+      }
+
+      .hove {
+        /* Your existing styles */
+        cursor: pointer;
+        /* Change cursor to pointer on hover */
+        transition: background-color 0.3s;
+        /* Smooth transition for background color change */
+        user-select: none;
+      }
+    </style>
+  </head>
+  <style>
+	<body>
+    <div id="loadingOverlay">
+      <div id="loadingSpinner"></div>
+      <div class="loader-text">Loading...</div>
+    </div>
+    <div class="container col-12 col-md-7">
+      <div class="text-center mb-4">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/a/a9/Logo_Resmi_SMA_Negeri_81_Jakarta.png" width="100px" alt="Logo" class="img-fluid"/>
+      </div>
+      <h4 class="text-center mb-0">Pengumuman <br>Capsis/Praçista</h4>
+      <h2 class="text-center mb-0">SMAN 81 Jakarta</h2>
+      <h4 class="text-center mb-4">Masa Jabatan 2024/2025</h4>
+      <form id="searchForm" class="mb-4">
+        <div class="mb-3">
+          <label for="userId" class="form-label">NIS</label>
+          <input type="text" class="form-control" id="userId" placeholder="" />
+        </div>
+        <div class="mb-3">
+          <label for="birthDate" class="form-label">Tanggal Lahir</label>
+          <input type="date" class="form-control" id="birthDate" />
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Cari</button>
+      </form>
+      <div class="search-results" id="searchResults"></div>
+    </div>
+    <canvas id="my-canvas"></canvas>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/confetti-js@0.0.18/dist/index.min.js"></script>
+    <script>
+      const users = [{
+        "id": "00001",
+        "birth_date": "2008-01-02",
+        "name": "Gajah Mada",
+        "kelas_asal": "X-8",
+        "organisasi": "Capsis",
+        "status": "LULUS"
+      }];
+      const confettiSettings = {
+        target: 'my-canvas',
+        max: 100,
+        size: 1.2,
+        animate: true
+      };
+      const confetti = new ConfettiGenerator(confettiSettings);
+
+      function fadeOut(element, duration) {
+        let opacity = 1;
+        const interval = 50;
+        const decrement = interval / duration;
+        const fade = setInterval(() => {
+          if (opacity <= 0) {
+            clearInterval(fade);
+            element.style.display = 'none';
+          } else {
+            opacity -= decrement;
+            element.style.opacity = opacity;
+          }
+        }, interval);
+      }
+
+      function stopConfetti() {
+        const confettiCanvas = document.getElementById('my-canvas');
+        setTimeout(() => {
+          fadeOut(confettiCanvas, 3000); // Fade out over 3 seconds
+        }, 3000);
+      }
+      document.getElementById("searchForm").addEventListener("submit", function(event) {
+        event.preventDefault(); // Prevent the default form submission
+        // Show the loading overlay
+        document.getElementById("loadingOverlay").style.display = "block";
+        // Delay the execution of the searchUsers function by 2000ms
+        setTimeout(() => {
+          searchUsers(); // Call the searchUsers function after 2000ms delay
+          document.getElementById("loadingOverlay").style.display = "none"; // Hide the loading overlay
+        }, 2000);
+      });
+
+      function searchUsers() {
+        // Your existing searchUsers code
+        const userId = document.getElementById("userId").value;
+        const birthDate = document.getElementById("birthDate").value;
+        const resultsContainer = document.getElementById("searchResults");
+        resultsContainer.innerHTML = "";
+        const filteredUsers = users.filter(
+          (user) => user.id === userId && user.birth_date === birthDate);
+        if (filteredUsers.length > 0) {
+          filteredUsers.forEach((user) => {
+            if (user.status === "LULUS") {
+              confetti.render();
+              stopConfetti();
+              const userTable = document.createElement("table");
+              userTable.className = "table table-bordered";
+              userTable.innerHTML = `
+          
+				<tbody>
+					<tr>
+						<td colspan="3" class="text-center alert alert-primary"  >
+							<div class="alert alert-primary">Selamat, anda dinyatakan
+								<br>
+									<span class="h2  text-primary text-center" > LULUS</span>
+									<br> Seleksi calon organisatoris 
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>Name</td>
+								<td>:</td>
+								<td>${user.name}</td>
+							</tr>
+							<tr>
+								<td>No.Pendaftaran</td>
+								<td>:</td>
+								<td>${user.id}</td>
+							</tr>
+							<tr>
+								<td>Kelas</td>
+								<td>:</td>
+								<td>${user.kelas_asal}</td>
+							</tr>
+							<tr>
+								<td>Organisasi</td>
+								<td>:</td>
+								<td>${user.organisasi}</td>
+							</tr>
+						</tbody>
+        `;
+              resultsContainer.appendChild(userTable);
+            } else {
+              const userTable = document.createElement("table");
+              userTable.className = "table table-bordered";
+              userTable.innerHTML = `
+             
+						<tbody>
+							<tr>
+								<td colspan="3" class="text-center alert alert-danger"  >
+									<div class="alert alert-danger">Mohon maaf, anda dinyatakan 
+										<br>
+											<span class="h2  text-danger text-center" > TIDAK LULUS</span>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<td>Name</td>
+									<td>:</td>
+									<td>${user.name}</td>
+								</tr>
+								<tr>
+									<td>Kelas</td>
+									<td>:</td>
+									<td>${user.kelas_asal}</td>
+								</tr>
+								<tr>
+									<td>Organisasi</td>
+									<td>:</td>
+									<td>${user.organisasi}</td>
+								</tr>
+							</tbody>
+        `;
+              resultsContainer.appendChild(userTable);
+            }
+          });
+        } else {
+          resultsContainer.innerHTML = " < p class = 'text-danger' > No users found. < /p>";
+        }
+      }
+    </script>
+  </body>
+</html>
