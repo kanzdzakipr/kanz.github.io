@@ -12,7 +12,7 @@
 
 body {
   font-family: "Lato", sans-serif;
-  background-color: #999999;
+  background-color: #cecece;
   display: flex;
   transition: background 0.2s linear;}
 
@@ -22,7 +22,8 @@ body.dark h1, body.dark {
   color: #cfcfcf;}
 
 .checkbox {
-  opacity: 0;}
+  opacity: 0;
+margin-right: 50px;}
   
 .checkbox-label {
   background-color: #111;
@@ -31,6 +32,7 @@ body.dark h1, body.dark {
   border-radius: 50px;
   position: relative;
   padding: 5px;
+  padding-right: 5px;
   cursor: pointer;
   display: flex;
   justify-content: space-between;
@@ -102,6 +104,47 @@ body.dark h1, body.dark {
   padding-top: 150px;
   padding-left: 0px;
   padding-right: 40%;}
+
+.table_background {
+    display: flex;
+    background-color: white;
+    margin-left: 3vw;
+    margin-right: 3vw;
+    margin-bottom: 10vh;
+    margin-top: 5vh;
+    box-shadow: 0px 0px 10px rgba(114, 114, 113, 0.5);
+    border-radius: 15px;
+}
+
+table {
+    font-family: futura-pt, sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    border-collapse: collapse;
+    width: 100%;
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+th {
+    font-size: 18px;
+    text-align: left;
+    padding: 20px 20px 20px 20px;
+}
+
+table,
+td {
+    padding: 8px 8px 8px 20px;
+}
+
+tr:nth-child(even) {
+    background-color: #eff2f5;
+}
+
+tr:not(:first-child):hover {
+    background-color: rgba(114, 114, 113, 0.2);
+}
+
 </style>
 </head>
 <body>
@@ -116,13 +159,6 @@ body.dark h1, body.dark {
   <button class="openbtn" onclick="openNav()">☰</button>
 </div>
 
-<div>
-  <input type="checkbox" class="checkbox" id="checkbox">
-  <label for="checkbox" class="checkbox-label">
-    <span class="ball"></span>
-  </label>
-</div>
-
 <script>
 function openNav() {
   document.getElementById("mySidebar").style.width = "250px";
@@ -134,16 +170,37 @@ function closeNav() {
   document.getElementById("main").style.marginLeft= "0";
 }</script>
 
-<script> 
-const checkbox = document.getElementById("checkbox")
-checkbox.addEventListener("change", () => {
-  document.body.classList.toggle("dark")
-})</script>
-
 <div class="par1">
     <h1>Kanz Dzaki P. R.</h1>
     <h3>Technical Engineer</h3><br>
-    <p>Hello KanzDzakian! I am Kanz Dzaki but you can call me Kanz. I live in Jakarta, Indonesia. I'm currently working in Red Bull Racing F1 team. I am one of the technical engineer led by Adrian Newey. I also have a degree in Astrophysics and Mathematics</p>
+    <p>Hello KanzDzakian! I am Kanz Dzaki but you can call me Kanz. I live in Jakarta, Indonesia. I'm currently working in Red Bull Racing F1 team. I am one of the technical engineer led by Adrian Newey. I also have a degree in Astrophysics and Mathematics</p><br>
+  <div class="table_background">
+    <table>
+      <tr>
+        <th>Skill</th>
+        <th>Pengalaman</th>
+      </tr>
+      <tr>
+        <td>awokwa</td>
+        <td>awokaowakwa</td>
+      </tr>
+    </table>
+  </div>
 </div>
+
+<div>
+  <input type="checkbox" class="checkbox" id="checkbox">
+  <label for="checkbox" class="checkbox-label">
+    <span class="ball"></span>
+  </label>
+</div>
+
+<script> 
+  const checkbox = document.getElementById("checkbox")
+  checkbox.addEventListener("change", () => {
+    document.body.classList.toggle("dark")
+  })</script>
+
+
 </body>
 </html> 
